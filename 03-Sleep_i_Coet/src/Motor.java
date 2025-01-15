@@ -15,28 +15,50 @@ public class Motor extends Thread{
     public long getPotenciaObjectiva() { return potenciaObjectiva; }
     public long getPotenciaActual() { return potenciaActual; }
 
-    public void setPotencia(int p){
-        this.potenciaObjectiva = p;
-        int step = (potenciaObjectiva > potenciaActual) ? 1 : -1;
-
-        while (potenciaActual != potenciaObjectiva) {
-            try {
-                Thread.sleep(random.nextInt(2000)); // Espera aleatòria entre 0 i 10 ms
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            potenciaActual += step;
-            if (potenciaActual == potenciaObjectiva) {
-                System.out.printf("Motor %s: FerRes Objectiu: %d Actual: %d%n", getName(), potenciaObjectiva, potenciaActual);
-            } else {
-                System.out.printf("Motor %s: %s Objectiu: %d Actual: %d%n", getName(), (step > 0 ? "Incre." : "Decre."), potenciaObjectiva, potenciaActual);
-            }
-        }
+    public synchronized void setPotencia(int potenciaObjectiu) {
+        this.potenciaObjectiva = potenciaObjectiu;
+        notify();
     }
 
     @Override
     public void run() {
-        // Mantenim el fil actiu, però la configuració del motor es fa des de setPotencia
+        Random random = new Random();
+
+        try {
+            while (true) { 
+                synchronized (this) {
+                    while (potenciaActual == potenciaObjectiva) {
+                        wait();
+                        if (potenciaActual == 0 && potenciaObjectiva == 0) break;
+                    }
+                }
+
+                if (potenciaActual < potenciaObjectiva) {
+
+                    potenciaActual++;
+
+                    if (potenciaActual == potenciaObjectiva) {
+                        System.out.printf("%s: Fer res Objectiu: %d Actual: %d\n", getName(), potenciaObjectiva, potenciaActual);
+                    } else {
+                        System.out.printf("%s: Incre. Objectiu: %d Actual: %d\n", getName(), potenciaObjectiva, potenciaActual);
+                    }
+                } else if (potenciaActual > potenciaObjectiva) {
+
+                    potenciaActual--;
+                    
+                    if (potenciaActual == potenciaObjectiva) {
+                        System.out.printf("%s: Fer res Objectiu: %d Actual: %d\n", getName(), potenciaObjectiva, potenciaActual);
+                    } else {
+                        System.out.printf("%s: Decre. Objectiu: %d Actual: %d\n", getName(), potenciaObjectiva, potenciaActual);
+                    }
+                }
+
+                Thread.sleep(random.nextInt(2000));
+
+                if (potenciaActual == 0 && potenciaObjectiva == 0) break;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

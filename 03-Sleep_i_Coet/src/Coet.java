@@ -5,17 +5,18 @@ public class Coet {
 
     public Coet() {
         for (int i= 0; i < 4; i++){
-            motors[i] = new Motor("" + i);
+            motors[i] = new Motor("Motor " + i);
         }
     }
 
     public void passaAPotencia(int p){
-        System.out.println("Passant a potència " + p);
-        if(p >= 0){
-            for (Motor motor: motors){
-                motor.setPotencia(p);
-            }
+        if (p < 0 || p > 10) {
+            System.out.println("La potència ha d'estar entre 0 i 10.");
+            return;
         }
+        System.out.printf("Passant a potència %d\n", p);
+
+        for (Motor motor: motors) motor.setPotencia(p);
     }
 
     public void arranca() {
@@ -25,24 +26,16 @@ public class Coet {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         Coet coet = new Coet();
         coet.arranca();
 
-        while (true) {
-            System.out.print("Introdueix la potència objectiu: ");
-            int potencia = scanner.nextInt();
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) { 
+                int potencia = scanner.nextInt();
+                coet.passaAPotencia(potencia);
 
-            if (potencia == 0) {
-                System.out.println("Passant a potència 0");
-                coet.passaAPotencia(potencia);
-                break; // Aturem el procés un cop arriba a 0
-            } else {
-                coet.passaAPotencia(potencia);
+                if (potencia == 0) break;
             }
         }
-
-        scanner.close();
-        System.out.println("-- Fi de main -----------");
     }
 }
