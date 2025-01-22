@@ -18,6 +18,10 @@ public class Soci extends Thread{
 
     public Compte getCompte(){ return compte; }
 
+    public float getAportacio() { return aportacio; }
+    public int getEsperaMax() { return esperaMax; }
+    public int getMaxAnys() { return maxAnys; }
+
     @Override
     public void run(){
         for(int any=1; any <= maxAnys; any++){
