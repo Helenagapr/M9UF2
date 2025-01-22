@@ -29,6 +29,7 @@ public class Soci extends Thread {
     }
 
     public int getMaxAnys() {
+    
         return maxAnys;
     }
 
