@@ -31,8 +31,8 @@ public class Associacio {
     }
 
     public void mostraBalancComptes(){
-        Compte compte = Compte.getInstancia();
-        System.out.printf("Saldo: %.2f\n", compte.getSaldo());
+        Soci soci = socis[1];
+        System.out.printf("Saldo: %.2f\n", soci.getCompte().getSaldo());
     }
 
 

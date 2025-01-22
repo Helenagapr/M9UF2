@@ -19,11 +19,12 @@ public class Compte{
         this.saldo = saldo;
     }
 
+    /* 
     public void ingressar(float quantitat) {
         saldo += quantitat;
     }
 
     public void retirar(float quantitat){
         saldo -= quantitat;
-    }
+    }*/
 }
