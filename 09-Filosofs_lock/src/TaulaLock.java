@@ -25,4 +25,10 @@ public class TaulaLock {
             f.start();
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println("-------------------------------------");
+        TaulaLock taula = new TaulaLock(5);
+        taula.cridarATaula();
+    }
 }

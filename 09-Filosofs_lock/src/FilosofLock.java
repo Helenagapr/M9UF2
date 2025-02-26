@@ -72,9 +72,5 @@ public class FilosofLock extends Thread {
     }
     
     
-    public static void main(String[] args) {
-        System.out.println("-------------------------------------");
-        TaulaLock taula = new TaulaLock(5);
-        taula.cridarATaula();
-    }
+    
 }
