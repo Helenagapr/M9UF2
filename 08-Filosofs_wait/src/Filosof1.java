@@ -52,7 +52,7 @@ public class Filosof1 extends Thread {
     
     public static void main(String[] args) {
         System.out.println("-------------------------------------");
-        Taula1 taula = new Taula1(5);
+        TaulaLock taula = new TaulaLock(5);
         taula.cridarATaula();
     }
 }
